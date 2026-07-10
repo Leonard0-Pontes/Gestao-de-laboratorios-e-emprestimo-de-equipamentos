@@ -1,4 +1,4 @@
-###PLANEJAMENTO INICIAL E ORGANIZAÇÃO
+### PLANEJAMENTO INICIAL E ORGANIZAÇÃO
 
 ## Definição do Problema e Escopo
 
