@@ -1,4 +1,5 @@
 import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsDateString } from 'class-validator'
+import { Transform } from 'class-transformer'
 
 export class CreateEquipDto {
     @IsString()
@@ -9,6 +10,11 @@ export class CreateEquipDto {
     @IsOptional()
     descricao?: string
 
+    @Transform(({ value }) => {
+        if (value === true || value === 'true' || value === 'on') return true;
+        if (value === false || value === 'false') return false;
+        return value;
+    })
     @IsBoolean()
     @IsNotEmpty()
     esta_disponivel!: boolean

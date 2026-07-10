@@ -1,4 +1,5 @@
 import { IsString, IsOptional, IsBoolean, IsDateString } from 'class-validator'
+import { Transform } from 'class-transformer'
 
 export class UpdateLabDto {
     @IsString()
@@ -18,6 +19,11 @@ export class UpdateLabDto {
     @IsOptional()
     descricao?: string
 
+    @Transform(({ value }) => {
+        if (value === true || value === 'true' || value === 'on') return true;
+        if (value === false || value === 'false') return false;
+        return value;
+    })
     @IsBoolean()
     @IsOptional()
     esta_ocupado?: boolean

@@ -1,4 +1,5 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsDateString, IsDate } from 'class-validator'
+import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsDateString } from 'class-validator'
+import { Transform } from 'class-transformer'
 
 export class CreateLabDto {
     @IsString()
@@ -18,6 +19,11 @@ export class CreateLabDto {
     @IsOptional()
     descricao?: string
 
+    @Transform(({ value }) => {
+        if (value === true || value === 'true' || value === 'on') return true;
+        if (value === false || value === 'false') return false;
+        return value;
+    })
     @IsBoolean()
     @IsNotEmpty()
     esta_ocupado!: boolean
