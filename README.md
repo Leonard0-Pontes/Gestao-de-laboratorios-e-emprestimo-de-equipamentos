@@ -1,98 +1,233 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# LabReserve
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+> Sistema web para gerenciamento de laboratórios e empréstimo de equipamentos desenvolvido com **NestJS**, **PostgreSQL**, **Prisma** e **Vue.js**.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## Sobre o Projeto
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+O **LabReserve** é um sistema desenvolvido para instituições de ensino com o objetivo de gerenciar laboratórios e controlar reservas e empréstimos de equipamentos.
 
-## Project setup
+O sistema possui dois perfis de usuário:
 
-```bash
-$ npm install
+### Administrador
+- Gerenciar usuários
+- Cadastrar laboratórios
+- Cadastrar equipamentos
+- Aprovar ou rejeitar reservas
+- Aprovar empréstimos
+- Registrar devoluções
+- Visualizar relatórios
+
+### Aluno
+- Cadastro e Login
+- Consultar equipamentos disponíveis
+- Solicitar reservas
+- Solicitar empréstimos
+- Consultar histórico
+
+---
+
+# Funcionalidades
+
+- ✅ Autenticação 
+- ✅ Controle de acesso por papéis
+- ✅ CRUD de Usuários
+- ✅ CRUD de Laboratórios
+- ✅ CRUD de Equipamentos
+- ✅ Reservas
+- ✅ Empréstimos
+- ✅ Upload de imagens
+- ✅ Integração de api externa (CEP)
+- ✅ Cache
+- ✅ Docker
+- ✅ Deploy
+
+---
+
+# Tecnologias
+
+| Tecnologia | Utilização |
+|------------|------------|
+| NestJS | Backend |
+| TypeScript | Linguagem |
+| PostgreSQL | Banco de Dados |
+| Docker | Containers |
+| HTML, CSS e Javascript| Frontend |
+
+
+---
+
+# Modelo de Dados
+
+## Usuário
+
+- id
+- nome
+- email
+- senhaHash
+
+## Laboratório
+
+- id
+- nome
+- localização
+- descrição
+
+## Equipamento
+
+- id
+- nome
+- descrição
+- status
+- imagem
+- laboratorioId
+
+## Reserva
+
+- id
+- usuarioId
+- equipamentoId
+- dataInicio
+- dataFim
+- status
+
+## Empréstimo
+
+- id
+- usuarioId
+- equipamentoId
+- dataEmprestimo
+- dataPrevista
+- dataDevolucao
+- status
+
+---
+
+# Regras de Negócio
+
+- Equipamentos indisponíveis não podem ser reservados.
+- Apenas administradores podem aprovar reservas.
+- Não permitir duas reservas para o mesmo equipamento no mesmo período.
+- Não permitir devoluções inexistentes.
+- Reservas canceladas não podem ser aprovadas.
+- Usuários não autenticados não podem acessar rotas protegidas.
+
+---
+
+# Endpoints
+
+## Usuários
+
+```http
+GET /users
+GET /users/:id
+PATCH /users/:id
+DELETE /users/:id
 ```
 
-## Compile and run the project
+## Laboratórios
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```http
+GET /laboratorios
+POST /laboratorios
+PATCH /laboratorios/:id
+DELETE /laboratorios/:id
 ```
 
-## Run tests
+## Equipamentos
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```http
+GET /equipamentos
+GET /equipamentos?status=DISPONIVEL
+GET /equipamentos?page=1&limit=10
+POST /equipamentos
+PATCH /equipamentos/:id
+DELETE /equipamentos/:id
+POST /equipamentos/:id/imagem
 ```
 
-## Deployment
+## Reservas
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+```http
+POST /reservas
+GET /reservas
+PATCH /reservas/:id/aprovar
+PATCH /reservas/:id/cancelar
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Empréstimos
 
-## Resources
+```http
+POST /emprestimos
+GET /emprestimos
+PATCH /emprestimos/:id/aprovar
+PATCH /emprestimos/:id/devolver
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# 👥 Divisão da Equipe
 
-## Support
+## Leonardo — Infraestrutura
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Responsabilidades
 
-## Stay in touch
+- Configuração do NestJS
+- Configuração do PostgreSQL
+- Prisma ORM
+- Migrations
+- Seeds
+- Docker
+- Cache
+- Health Check
+- Deploy
+- Organização do GitHub
+- Revisão dos Pull Requests
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
-## License
+## Heros — Autenticação e Usuários
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Responsabilidades
+
+- JWT
+- Passport
+- bcrypt
+- Guards
+- Controle de acesso
+- CRUD de Usuários
+- Cookies
+- Autenticação
+
+---
+
+## Angelo — Laboratórios e Equipamentos
+
+### Responsabilidades
+
+- CRUD de Laboratórios
+- CRUD de Equipamentos
+- Upload de Imagens
+- Integração ViaCEP
+- Paginação
+- Filtros
+- Validação de Upload
+
+---
+
+## Paulo — Reservas, Empréstimos e Front-end
+
+### Responsabilidades
+
+- Reservas
+- Empréstimos
+- Regras de negócio
+- Front-end
+- Dashboard
+- Histórico
+- Swagger
+- README
+- Diagramas
+
+---
