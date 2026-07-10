@@ -1,4 +1,4 @@
-### PLANEJAMENTO INICIAL E ORGANIZAÇÃO
+# PLANEJAMENTO INICIAL E ORGANIZAÇÃO
 
 ## Definição do Problema e Escopo
 
@@ -10,7 +10,7 @@
 
 - [] Identificar operações inválidas e tratamentos necessários
 
-# 1.2 Estrutura do Projeto
+### 1.2 Estrutura do Projeto
 
 - [] Criar estrutura de diretórios do projeto NestJS
 
@@ -20,7 +20,7 @@
 
 ## 2.  MODELAGEM DE DADOS E BANCO
 
-# 2.1 Modelagem de Entidades
+### 2.1 Modelagem de Entidades
 
 - [] Definir entidade Usuário 
 
@@ -36,7 +36,7 @@
 
 ## 3. DESENVOLVIMENTO BACKEND
 
-# 3.1 Configuração Base
+### 3.1 Configuração Base
 
  - [] Inicializar projeto NestJS
 
@@ -46,7 +46,7 @@
 
  - [] Configurar class-validator e class-transformer
 
-# 3.2 Módulo de Autenticação e Autorização (não sabemos se precisa)
+### 3.2 Módulo de Autenticação e Autorização (não sabemos se precisa)
 
 - [] Criar módulo de autenticação
 
@@ -60,7 +60,7 @@
 
 - [] Proteger rotas com autorização
 
-# 3.3 Módulo de Usuários
+### 3.3 Módulo de Usuários
 
 - [] Criar controller de usuários
 
@@ -72,7 +72,7 @@
 
 - [] Restringir operações por perfil
 
-# 3.4 Módulo de Laboratórios
+### 3.4 Módulo de Laboratórios
 
 - [] Criar controller de laboratórios
 
@@ -82,7 +82,7 @@
 
 - [] Implementar busca com filtros e paginação
 
-# 3.5 Módulo de Equipamentos
+### 3.5 Módulo de Equipamentos
 
 - [] Criar controller de equipamentos
 
@@ -96,7 +96,7 @@
 
 - [] Implementar busca com filtros e paginação
 
-# 3.6 Módulo de Reservas
+### 3.6 Módulo de Reservas
 
 - [] Criar controller de reservas
 
@@ -114,7 +114,7 @@
 
 - [] Implementar regra: reservas canceladas não podem ser aprovadas
 
-# 3.7 Módulo de Empréstimos
+### 3.7 Módulo de Empréstimos
 
 - [] Criar controller de empréstimos
 
@@ -130,7 +130,7 @@
 
 - [] Implementar regra: apenas Admin aprova e registra devolução
 
-# 3.8 Tratamento de Exceções
+### 3.8 Tratamento de Exceções
 
 - [] Configurar filtros de exceção global
 
@@ -148,7 +148,7 @@
  
 ## 4. API REST E DOCUMENTAÇÃO
 
-# 4.1 Implementação de Endpoints
+### 4.1 Implementação de Endpoints
 
 - [] Implementar endpoints apropriados
 
@@ -160,7 +160,7 @@
 
 - [] Configurar códigos HTTP apropriados
 
-# 4.2 Documentação
+### 4.2 Documentação
 
 - [] Configurar Swagger/OpenAPI
 
@@ -172,7 +172,7 @@
 
 ## 5.  INTERFACE WEB (FRONTEND)
 
-# 5.1 Configuração do Frontend
+### 5.1 Configuração do Frontend
 
 - [] Escolher tecnologia (HTML/CSS/JS)
 
@@ -180,7 +180,7 @@
 
 - [] Configurar comunicação com API
 
-# 5.2 Páginas e Funcionalidades
+### 5.2 Páginas e Funcionalidades
 
 - [] Página de login
 
@@ -194,7 +194,7 @@
 
 - [] Área administrativa
 
-# 5.3 Consumo da API
+### 5.3 Consumo da API
 
 - [] Implementar autenticação com JWT?
 
@@ -204,7 +204,7 @@
 
 ## 6. DOCKER E DEPLOY
 
-# 6. 1 Configuração Docker
+### 6. 1 Configuração Docker
 
 - [] Criar Dockerfile para backend
 
@@ -214,7 +214,7 @@
 
 - [] Criar docker-compose.yml
 
-# 6.2 Deploy
+### 6.2 Deploy
 
 - [] Escolher plataforma de nuvem (Render)?
 
@@ -224,13 +224,13 @@
 
 - [] Verificar funcionamento da API publicada?
 
-# 6.3 Observabilidade
+### 6.3 Observabilidade
 
 - [] Implementar health check
 
 ## 7.  DOCUMENTAÇÃO E ENTREGA
 
-# 7.1 Documentação do Projeto
+### 7.1 Documentação do Projeto
 
 - [] Escrever README.md contendo:
 
@@ -252,7 +252,7 @@
 
   - [] Incluir documentação Swagger
 
-# 7.2 Controle de Versão
+### 7.2 Controle de Versão
 
 - [] Manter histórico de commits distribuído
 
@@ -260,7 +260,7 @@
 
 - [] Manter branch principal estável
 
-# 7.3 Apresentação
+### 7.3 Apresentação
 
 - [] Preparar slides (se necessário)
 
@@ -272,7 +272,7 @@
 
 ## 8.  TESTES E VALIDAÇÃO
 
-# 8.1 Testes da API
+### 8.1 Testes da API
 
 - [] Testar endpoints com Postman
 
@@ -282,13 +282,13 @@
 
 - [] Validar regras de negócio
 
-# 8.2 Validação de Requisitos
+### 8.2 Validação de Requisitos
 
 - [] Verificar arquivos não versionados (node_modules, .env)
 
 ## 9.  ENTREGÁVEIS FINAIS
 
-# 9.1 Links
+### 9.1 Links
 
 - [] Link do repositório Git
 
@@ -296,7 +296,7 @@
 
 - [] Link da interface web?
 
-# 9.2 Arquivos
+### 9.2 Arquivos
 
 - [] README.md completo
 
@@ -310,4 +310,4 @@
 
 - [] Quadro de tarefas
 
-# 9.3 Apresentação
+### 9.3 Apresentação
