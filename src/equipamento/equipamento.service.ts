@@ -29,7 +29,7 @@ export class EquipamentoService {
         return this.equipamentos;
     }
 
-    buscarPorId(id: number) {
+    buscarId(id: number) {
         const tarefa = this.equipamentos.find((l) => l.id === id);
         if (!tarefa) {
             throw new NotFoundException('Equipamento não encontrado.');
@@ -38,8 +38,11 @@ export class EquipamentoService {
     }
     
     atualizarParcial(id: number, dados: UpdateEquipDto) {
-        const equipamento = this.buscarPorId(id);
-        const atualizada = { ...equipamento, ...dados };
+        const equipamento = this.buscarId(id);
+        const dadosFiltrados = Object.fromEntries(
+            Object.entries(dados).filter(([, valor]) => valor !== undefined),
+        );
+        const atualizada = { ...equipamento, ...dadosFiltrados };
         this.equipamentos = this.equipamentos.map((l) => (l.id === id ? atualizada : l));
         return atualizada;
     }

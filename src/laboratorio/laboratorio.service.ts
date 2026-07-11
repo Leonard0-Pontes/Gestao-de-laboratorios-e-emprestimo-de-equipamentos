@@ -22,7 +22,7 @@ export class LaboratorioService {
         return this.laboratorios;
     }
 
-    buscarPorId(id: number) {
+    buscarId(id: number) {
         const tarefa = this.laboratorios.find((l) => l.id === id);
         if (!tarefa) {
             throw new NotFoundException('Laboratório não encontrado.');
@@ -31,8 +31,11 @@ export class LaboratorioService {
     }
 
     atualizarParcial(id: number, dados: UpdateLabDto) {
-        const laboratorio = this.buscarPorId(id);
-        const atualizada = { ...laboratorio, ...dados };
+        const laboratorio = this.buscarId(id);
+        const dadosFiltrados = Object.fromEntries(
+            Object.entries(dados).filter(([, valor]) => valor !== undefined),
+        );
+        const atualizada = { ...laboratorio, ...dadosFiltrados };
         this.laboratorios = this.laboratorios.map((l) => (l.id === id ? atualizada : l));
         return atualizada;
     }
@@ -42,5 +45,6 @@ export class LaboratorioService {
         if (!existe) {
             throw new NotFoundException('Laboratório não encontrado.');
         }
+        this.laboratorios = this.laboratorios.filter((l) => l.id !== id)
     }
 }

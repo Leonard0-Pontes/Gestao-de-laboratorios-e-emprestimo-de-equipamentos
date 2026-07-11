@@ -17,6 +17,11 @@ export class EquipamentoController {
         return this.equipamentoService.listar();
     }
 
+    @Get(":id")
+    buscarId(@Param('id', ParseIntPipe) id: number) {
+        return this.equipamentoService.buscarId(id)
+    }
+
     @Patch(':id')
     atualizarParcial(
         @Param('id', ParseIntPipe) id: number,

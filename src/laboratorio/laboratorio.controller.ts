@@ -1,4 +1,4 @@
-import { Controller, Body, Post, Get, Patch, Delete, ParseIntPipe, Param } from '@nestjs/common';
+import { Controller, Body, Post, Get, Patch, Delete, ParseIntPipe, Param, HttpCode } from '@nestjs/common';
 import { CreateLabDto } from './dtos/create-lab.dto';
 import { UpdateLabDto } from './dtos/update-lab.dto';
 import { LaboratorioService } from './laboratorio.service';
@@ -17,6 +17,11 @@ export class LaboratorioController {
         return this.laboratorioService.listar();
     }
 
+    @Get(":id")
+    buscarId(@Param('id', ParseIntPipe) id: number) {
+        return this.laboratorioService.buscarId(id)
+    }
+
     @Patch(':id')
     atualizarParcial(
         @Param('id', ParseIntPipe) id: number,
@@ -25,6 +30,7 @@ export class LaboratorioController {
     }
     
     @Delete(':id')
+    @HttpCode(204)
         remover(@Param('id', ParseIntPipe) id: number) {
         this.laboratorioService.remover(id);
     }
