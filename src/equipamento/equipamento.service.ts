@@ -24,16 +24,31 @@ export class EquipamentoService {
         this.equipamentos.push(novoEquip)
         return novoEquip;
     }
+
+    criarComArquivo(dados: CreateEquipDto, imagem: Express.Multer.File) {
+        const novoEquip: Equipamento = {
+            id: this.equipamentos.length + 1, ...dados, imagem: {
+                nomeOriginal: imagem.originalname,
+                tipo: imagem.mimetype,
+                tamanho: imagem.size
+            }
+        }
+        this.equipamentos.push(novoEquip)
+        return novoEquip; 
+    }
     
-    listar(status?: string, limite?: number) {
+    listar(status?: string, limite?: number, pagina?: number) {
         let resultado = [...this.equipamentos]
         if (status) {
             resultado = resultado.filter((s) => s.status === status)
         }
         if (limite && limite > 0) {
-            resultado = resultado.slice(0, limite)
+            pagina = pagina ?? 1
+            const inicio = (pagina - 1) * limite
+            const fim = inicio + limite
+            resultado = resultado.slice(inicio, fim)
         }
-        return this.equipamentos;
+        return resultado;
     }
 
     buscarId(id: number) {
