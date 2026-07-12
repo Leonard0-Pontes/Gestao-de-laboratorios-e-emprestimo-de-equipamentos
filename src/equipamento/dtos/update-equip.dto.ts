@@ -17,7 +17,7 @@ export class UpdateEquipDto {
     })
     @IsBoolean()
     @IsOptional()
-    esta_disponivel?: boolean
+    esta_ocupado?: boolean
 
     @IsDateString()
     @IsOptional()

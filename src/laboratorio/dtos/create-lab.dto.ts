@@ -1,5 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsDateString } from 'class-validator'
-import { Transform } from 'class-transformer'
+import { IsString, IsNotEmpty, IsOptional, IsIn, IsDateString } from 'class-validator'
 
 export class CreateLabDto {
     @IsString()
@@ -19,14 +18,8 @@ export class CreateLabDto {
     @IsOptional()
     descricao?: string
 
-    @Transform(({ value }) => {
-        if (value === true || value === 'true' || value === 'on') return true;
-        if (value === false || value === 'false') return false;
-        return value;
-    })
-    @IsBoolean()
-    @IsNotEmpty()
-    esta_ocupado!: boolean
+    @IsIn(['Disponível', 'Reservado', 'Ocupado'])
+    status!: 'Disponível' | 'Reservado' | 'Ocupado'
 
     @IsDateString()
     // Tentar esse tipo, caso não funcione, modifica-lo ou remover "reservas" por inteiro

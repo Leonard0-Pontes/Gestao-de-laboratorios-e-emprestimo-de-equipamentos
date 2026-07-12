@@ -1,4 +1,4 @@
-import { Controller, Body, Get, Post, Patch, Delete, ParseIntPipe, Param } from '@nestjs/common';
+import { Controller, Body, Get, Post, Patch, Delete, ParseIntPipe, Param, Query, DefaultValuePipe } from '@nestjs/common';
 import { CreateEquipDto } from './dtos/create-equip.dto';
 import { EquipamentoService } from './equipamento.service';
 import { UpdateEquipDto } from './dtos/update-equip.dto';
@@ -13,8 +13,11 @@ export class EquipamentoController {
     }
     
     @Get()
-    listar() {
-        return this.equipamentoService.listar();
+    listar(
+        @Query('status') status?: string,
+        @Query('limite', new DefaultValuePipe(10), ParseIntPipe) limite?: number 
+    ) {
+        return this.equipamentoService.listar(status);
     }
 
     @Get(":id")

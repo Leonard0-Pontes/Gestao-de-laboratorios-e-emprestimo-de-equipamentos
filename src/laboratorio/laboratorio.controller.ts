@@ -1,4 +1,4 @@
-import { Controller, Body, Post, Get, Patch, Delete, ParseIntPipe, Param, HttpCode } from '@nestjs/common';
+import { Controller, Body, Post, Get, Patch, Delete, ParseIntPipe, Param, HttpCode, Query, DefaultValuePipe } from '@nestjs/common';
 import { CreateLabDto } from './dtos/create-lab.dto';
 import { UpdateLabDto } from './dtos/update-lab.dto';
 import { LaboratorioService } from './laboratorio.service';
@@ -13,8 +13,12 @@ export class LaboratorioController {
     }
 
     @Get()
-    listar() {
-        return this.laboratorioService.listar();
+    listar(
+        @Query('status') status?: string,
+        @Query('limite', new DefaultValuePipe(10), ParseIntPipe) limite?: number,
+        @Query('pagina', new DefaultValuePipe(1), ParseIntPipe) pagina?: number
+    ) {
+        return this.laboratorioService.listar(status, limite, pagina);
     }
 
     @Get(":id")

@@ -8,7 +8,14 @@ type Laboratorio = CreateLabDto & {
 
 @Injectable()
 export class LaboratorioService {
-    private laboratorios: Laboratorio[] = [];
+    private laboratorios: Laboratorio[] = [
+        {id: 1, nome: "Laboratório de Redes", num_id: "D18", localizacao: "Ala D", status: "Ocupado"},
+        {id: 2, nome: "Laboratório de Informática", num_id: "D16", localizacao: "Ala D", status: "Reservado"},
+        {id: 3, nome: "Laboratório de Mecânica", num_id: "E17", localizacao: "Ala E", status: "Reservado"},
+        {id: 4, nome: "Laboratório de Química", num_id: "C20", localizacao: "Ala C", status: "Disponível"},
+        {id: 5, nome: "Laboratório de Alimentos", num_id: "C15", localizacao: "Ala C", status: "Disponível"},
+        {id: 6, nome: "Laboratório de Computação", num_id: "E09", localizacao: "Ala E", status: "Ocupado"}
+    ];
 
     criar(dados: CreateLabDto) {
         const novoLab: Laboratorio = {
@@ -18,8 +25,18 @@ export class LaboratorioService {
         return novoLab;
     }
 
-    listar() {
-        return this.laboratorios;
+    listar(status?: string, limite?: number, pagina?: number) {
+        let resultado = [...this.laboratorios]
+        if (status) {
+            resultado = resultado.filter((s) => s.status === status)
+        }
+        if (limite && limite > 0) {
+            pagina = pagina ?? 1
+            const inicio = (pagina - 1) * limite
+            const fim = inicio + limite
+            resultado = resultado.slice(inicio, fim)
+        }
+        return resultado;
     }
 
     buscarId(id: number) {
@@ -32,6 +49,7 @@ export class LaboratorioService {
 
     atualizarParcial(id: number, dados: UpdateLabDto) {
         const laboratorio = this.buscarId(id);
+        // Sem os "dadosFiltrados", o patch substitui todos os valores não adicionados por "vazios"
         const dadosFiltrados = Object.fromEntries(
             Object.entries(dados).filter(([, valor]) => valor !== undefined),
         );

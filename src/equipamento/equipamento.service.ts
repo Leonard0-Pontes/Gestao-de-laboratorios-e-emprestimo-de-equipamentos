@@ -25,7 +25,14 @@ export class EquipamentoService {
         return novoEquip;
     }
     
-    listar() {
+    listar(status?: string, limite?: number) {
+        let resultado = [...this.equipamentos]
+        if (status) {
+            resultado = resultado.filter((s) => s.status === status)
+        }
+        if (limite && limite > 0) {
+            resultado = resultado.slice(0, limite)
+        }
         return this.equipamentos;
     }
 
@@ -39,6 +46,7 @@ export class EquipamentoService {
     
     atualizarParcial(id: number, dados: UpdateEquipDto) {
         const equipamento = this.buscarId(id);
+        // Sem os "dadosFiltrados", o patch substitui todos os valores não adicionados por "vazios"
         const dadosFiltrados = Object.fromEntries(
             Object.entries(dados).filter(([, valor]) => valor !== undefined),
         );
