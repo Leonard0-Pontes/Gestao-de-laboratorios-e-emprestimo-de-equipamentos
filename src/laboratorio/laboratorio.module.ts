@@ -4,6 +4,6 @@ import { LaboratorioService } from './laboratorio.service';
 
 @Module({
   controllers: [LaboratorioController],
-  providers: [LaboratorioService]
+  providers: [LaboratorioService],
 })
 export class LaboratorioModule {}
