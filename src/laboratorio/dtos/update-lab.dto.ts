@@ -1,5 +1,4 @@
-import { IsString, IsOptional, IsBoolean, IsDateString } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { IsString, IsOptional, IsIn } from 'class-validator';
 
 export class UpdateLabDto {
   @IsString()
@@ -9,6 +8,7 @@ export class UpdateLabDto {
   @IsString()
   @IsOptional()
   // num_id = Numero que identifica o laboratório. EX: D18
+  // Não incluido no escopo original do projeto, adicionado para ajudar identificação dos labs.
   num_id?: string;
 
   @IsString()
@@ -19,18 +19,10 @@ export class UpdateLabDto {
   @IsOptional()
   descricao?: string;
 
-  @Transform(({ value }) => {
-    if (value === true || value === 'true' || value === 'on') return true;
-    if (value === false || value === 'false') return false;
-    return value;
-  })
-  @IsBoolean()
-  @IsOptional()
-  esta_ocupado?: boolean;
-
-  @IsDateString()
-  // Tentar esse tipo, caso não funcione, modifica-lo ou remover "reservas" por inteiro
-  @IsOptional()
-  // Datas reservadas
-  reservas?: string;
+  /* 
+  Não incluido no escopo original do projeto, adicionado por seguir a mesma lógica do emprestimo
+  de equipamentos de informar o status do objeto.
+  */
+  @IsIn(['Disponível', 'Reservado', 'Ocupado'])
+  status?: 'Disponível' | 'Reservado' | 'Ocupado';
 }

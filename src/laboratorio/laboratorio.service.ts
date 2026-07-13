@@ -64,6 +64,10 @@ export class LaboratorioService {
 
   listar(status?: string, limite?: number, pagina?: number) {
     let resultado = [...this.laboratorios];
+    /*
+    Tanto a filtragem quanto a paginação dos laboratorios não estão inclusos no escopo original,
+    adicionados por completude.
+    */
     if (status) {
       resultado = resultado.filter((s) => s.status === status);
     }

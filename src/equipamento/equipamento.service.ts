@@ -15,7 +15,14 @@ type Equipamento = CreateEquipDto & {
 
 @Injectable()
 export class EquipamentoService {
-  private equipamentos: Equipamento[] = [];
+  private equipamentos: Equipamento[] = [
+    {id: 1, nome: "Access Point/Roteador", status: "Disponível", idLab: "D18"},
+    {id: 2, nome: "Maquina de datilografia", status: "Disponível", idLab: "D16"},
+    {id: 3, nome: "Caldeirão", status: "Ocupado", idLab: "C15"},
+    {id: 4, nome: "Tubos de ensaio", status: "Ocupado", idLab: "C20"},
+    {id: 5, nome: "Robo carro", status: "Reservado", idLab: "E17"},
+    {id: 6, nome: "Gabinete", status: "Reservado", idLab: "E09"}
+  ];
 
   criar(dados: CreateEquipDto) {
     const novoEquip: Equipamento = {
@@ -55,7 +62,7 @@ export class EquipamentoService {
   }
 
   buscarId(id: number) {
-    const tarefa = this.equipamentos.find((l) => l.id === id);
+    const tarefa = this.equipamentos.find((e) => e.id === id);
     if (!tarefa) {
       throw new NotFoundException('Equipamento não encontrado.');
     }
@@ -69,16 +76,17 @@ export class EquipamentoService {
       Object.entries(dados).filter(([, valor]) => valor !== undefined),
     );
     const atualizada = { ...equipamento, ...dadosFiltrados };
-    this.equipamentos = this.equipamentos.map((l) =>
-      l.id === id ? atualizada : l,
+    this.equipamentos = this.equipamentos.map((e) =>
+      e.id === id ? atualizada : e,
     );
     return atualizada;
   }
 
   remover(id: number) {
-    const existe = this.equipamentos.some((l) => l.id === id);
+    const existe = this.equipamentos.some((e) => e.id === id);
     if (!existe) {
       throw new NotFoundException('Equipamento não encontrado.');
     }
+    this.equipamentos = this.equipamentos.filter((e) => e.id !== id);
   }
 }

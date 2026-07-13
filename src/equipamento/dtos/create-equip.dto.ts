@@ -2,8 +2,7 @@ import {
   IsString,
   IsNotEmpty,
   IsOptional,
-  IsDateString,
-  IsIn,
+  IsIn
 } from 'class-validator';
 
 export class CreateEquipDto {
@@ -17,14 +16,6 @@ export class CreateEquipDto {
 
   @IsIn(['Disponível', 'Reservado', 'Ocupado'])
   status!: 'Disponível' | 'Reservado' | 'Ocupado';
-
-  @IsDateString()
-  @IsOptional()
-  dataEmprestimo?: string;
-
-  @IsDateString()
-  @IsOptional()
-  dataDevolucao?: string;
 
   @IsString()
   @IsNotEmpty()

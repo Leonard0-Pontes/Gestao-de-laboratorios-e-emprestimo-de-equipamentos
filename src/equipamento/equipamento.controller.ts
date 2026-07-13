@@ -20,7 +20,7 @@ import { EquipamentoService } from './equipamento.service';
 import { UpdateEquipDto } from './dtos/update-equip.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-const TAMANHO_MAXIMO_IMAGEM = 2 * 1024 * 1024;
+const TAMANHO_MAXIMO_IMAGEM = 10 * 1024 * 1024;
 
 @Controller('equipamento')
 export class EquipamentoController {
@@ -50,6 +50,7 @@ export class EquipamentoController {
           maxSize: TAMANHO_MAXIMO_IMAGEM,
         })
         .build({
+          fileIsRequired: false,
           errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
         }),
     )
