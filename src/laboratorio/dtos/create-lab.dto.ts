@@ -2,8 +2,7 @@ import {
   IsString,
   IsNotEmpty,
   IsOptional,
-  IsIn,
-  IsDateString,
+  IsIn
 } from 'class-validator';
 
 export class CreateLabDto {
@@ -14,6 +13,7 @@ export class CreateLabDto {
   @IsString()
   @IsNotEmpty()
   // num_id = Numero que identifica o laboratório. EX: D18
+  // Não incluido no escopo original do projeto, adicionado para ajudar identificação dos labs.
   num_id!: string;
 
   @IsString()
@@ -24,12 +24,10 @@ export class CreateLabDto {
   @IsOptional()
   descricao?: string;
 
+  /* 
+  Não incluido no escopo original do projeto, adicionado por seguir a mesma lógica do emprestimo
+  de equipamentos de informar o status do objeto.
+  */
   @IsIn(['Disponível', 'Reservado', 'Ocupado'])
   status!: 'Disponível' | 'Reservado' | 'Ocupado';
-
-  @IsDateString()
-  // Tentar esse tipo, caso não funcione, modifica-lo ou remover "reservas" por inteiro
-  @IsOptional()
-  // Datas reservadas
-  reservas?: string;
 }
