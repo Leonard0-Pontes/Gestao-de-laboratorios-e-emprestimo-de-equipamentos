@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEquipDto } from './dtos/create-equip.dto';
 import { UpdateEquipDto } from './dtos/update-equip.dto';
+import { LaboratorioService } from 'src/laboratorio/laboratorio.service';
 
 type ArquivoRecebido = {
   nomeOriginal: string;
@@ -15,6 +16,7 @@ type Equipamento = CreateEquipDto & {
 
 @Injectable()
 export class EquipamentoService {
+  constructor(private readonly laboratorioService : LaboratorioService) {}
   private equipamentos: Equipamento[] = [
     {id: 1, nome: "Access Point/Roteador", status: "Disponível", idLab: "D18"},
     {id: 2, nome: "Maquina de datilografia", status: "Disponível", idLab: "D16"},
@@ -24,7 +26,16 @@ export class EquipamentoService {
     {id: 6, nome: "Gabinete", status: "Reservado", idLab: "E09"}
   ];
 
+  // Para validar no laboratorioService
+  buscarIdLab(idLab: string) {
+    return this.equipamentos.filter(
+      (e) => e.idLab === idLab,
+    );
+  }
+
   criar(dados: CreateEquipDto) {
+    // Valida se o idLab corresponde com algum laboratório existente.
+    this.laboratorioService.buscarNum_Id(dados.idLab);
     const novoEquip: Equipamento = {
       id: this.equipamentos.length + 1,
       ...dados,
@@ -34,6 +45,7 @@ export class EquipamentoService {
   }
 
   criarComArquivo(dados: CreateEquipDto, imagem: Express.Multer.File) {
+    this.laboratorioService.buscarNum_Id(dados.idLab);
     const novoEquip: Equipamento = {
       id: this.equipamentos.length + 1,
       ...dados,
@@ -70,6 +82,9 @@ export class EquipamentoService {
   }
 
   atualizarParcial(id: number, dados: UpdateEquipDto) {
+    if (dados.idLab) {
+      this.laboratorioService.buscarNum_Id(dados.idLab);
+    }
     const equipamento = this.buscarId(id);
     // Sem os "dadosFiltrados", o patch substitui todos os valores não adicionados por "vazios"
     const dadosFiltrados = Object.fromEntries(

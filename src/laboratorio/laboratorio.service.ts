@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateLabDto } from './dtos/create-lab.dto';
-import { UpdateLabDto } from 'src/laboratorio/dtos/update-lab.dto';
+import { UpdateLabDto } from './dtos/update-lab.dto';
 
 type Laboratorio = CreateLabDto & {
   id: number;
@@ -52,6 +52,14 @@ export class LaboratorioService {
       status: 'Ocupado',
     },
   ];
+
+  buscarNum_Id(numId: string) {
+    const laboratorio = this.laboratorios.find((l) => l.num_id === numId);
+    if (!laboratorio) {
+      throw new NotFoundException('Laboratório escolhido não foi encontrado!');
+    }
+    return laboratorio;
+  }
 
   criar(dados: CreateLabDto) {
     const novoLab: Laboratorio = {
