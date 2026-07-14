@@ -8,8 +8,8 @@ export class AuthController {
   
   @Post('login')
   async login(@Body() body: LoginDto) {
-    // O objeto 'usuario' retornado aqui já possui { id, nome, email }
-    const usuario = await this.authService.validarUsuario(body.nome, body.email, body.senha);
+    
+const usuario = await this.authService.validarUsuario(body.nome ?? '', body.email, body.senha);
 
     return {
       mensagem: 'Login realizado com sucesso!',

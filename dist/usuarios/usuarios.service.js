@@ -10,22 +10,42 @@ exports.UsuariosService = void 0;
 const common_1 = require("@nestjs/common");
 let UsuariosService = class UsuariosService {
     usuarios = [
-        {
-            id: 1,
-            nome: 'Bruno Costa',
-            email: 'bruno@example.com',
-            senhaHash: '123456',
-        },
-        {
-            id: 2,
-            nome: 'Ana Lima',
-            email: 'ana@example.com',
-            senhaHash: 'senhaSegura',
-        }
+        { id: '1', nome: 'Bruno Costa', email: 'bruno@example.com', senhaHash: '123456' }
     ];
+    listarTodos() {
+        return this.usuarios.map(u => this.removerSenha(u));
+    }
+    buscarPorId(id) {
+        const usuario = this.usuarios.find(u => u.id === id);
+        if (!usuario) {
+            throw new common_1.NotFoundException(`Usuário com ID ${id} não foi encontrado.`);
+        }
+        return this.removerSenha(usuario);
+    }
+    criar(createUsuarioDto) {
+        const emailExiste = this.usuarios.some(u => u.email === createUsuarioDto.email);
+        if (emailExiste) {
+            throw new common_1.BadRequestException('Este e-mail já está cadastrado.');
+        }
+        const novoUsuario = {
+            id: (this.usuarios.length + 1).toString(),
+            nome: createUsuarioDto.nome || 'Usuário Sem Nome',
+            email: createUsuarioDto.email,
+            senhaHash: createUsuarioDto.senha,
+        };
+        this.usuarios.push(novoUsuario);
+        return this.removerSenha(novoUsuario);
+    }
+    deletar(id) {
+        const index = this.usuarios.findIndex((u) => Number(u.id) === id);
+        if (index === -1) {
+            return false;
+        }
+        this.usuarios.splice(index, 1);
+        return true;
+    }
     buscarPorEmail(email) {
-        const emailNormalizado = email.trim().toLowerCase();
-        return this.usuarios.find((u) => u.email === emailNormalizado) ?? null;
+        return this.usuarios.find(u => u.email === email);
     }
     removerSenha(usuario) {
         const { senhaHash, ...usuarioSemSenha } = usuario;

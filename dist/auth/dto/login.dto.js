@@ -18,17 +18,19 @@ class LoginDto {
 }
 exports.LoginDto = LoginDto;
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)({ message: 'O nome deve ser uma string de texto.' }),
     __metadata("design:type", String)
 ], LoginDto.prototype, "nome", void 0);
 __decorate([
-    (0, class_validator_1.IsEmail)(),
+    (0, class_validator_1.IsNotEmpty)({ message: 'O e-mail é obrigatório.' }),
+    (0, class_validator_1.IsEmail)({}, { message: 'Por favor, insira um endereço de e-mail válido.' }),
     __metadata("design:type", String)
 ], LoginDto.prototype, "email", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsNotEmpty)({ message: 'A senha é obrigatória.' }),
+    (0, class_validator_1.IsString)({ message: 'A senha deve ser uma string de texto.' }),
+    (0, class_validator_1.MinLength)(6, { message: 'A senha deve conter no mínimo 6 caracteres.' }),
     __metadata("design:type", String)
 ], LoginDto.prototype, "senha", void 0);
 //# sourceMappingURL=login.dto.js.map

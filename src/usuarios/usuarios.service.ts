@@ -1,39 +1,72 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { LoginDto } from '../auth/dto/login.dto';
 
-export type Usuario = {
-  id: number;
+export interface Usuario {
+  id: string;
   nome: string;
   email: string;
   senhaHash: string;
-};
+}
 
-// Faz com que o objeto final tenha apenas id, nome e email
+// Tipo auxiliar para um  retorno seguro 
 export type UsuarioSemSenha = Omit<Usuario, 'senhaHash'>;
 
 @Injectable()
 export class UsuariosService {
-  private readonly usuarios: Usuario[] = [
-    {
-      id: 1,
-      nome: 'Bruno Costa',
-      email: 'bruno@example.com',
-      senhaHash: '123456',
-    },
-    {
-      id: 2,
-      nome: 'Ana Lima',
-      email: 'ana@example.com',
-      senhaHash: 'senhaSegura',
-    }
-  ];
+ 
+  private usuarios: Usuario[] = [
+    { id: '1', nome: 'Bruno Costa', email: 'bruno@example.com', senhaHash: '123456' }
+  ]; 
 
-  buscarPorEmail(email: string): Usuario | null {
-    const emailNormalizado = email.trim().toLowerCase();
-    return this.usuarios.find((u) => u.email === emailNormalizado) ?? null;
+ 
+  listarTodos(): UsuarioSemSenha[] {
+    return this.usuarios.map(u => this.removerSenha(u));
   }
 
+  
+  buscarPorId(id: string): UsuarioSemSenha {
+    const usuario = this.usuarios.find(u => u.id === id);
+    if (!usuario) {
+      throw new NotFoundException(`Usuário com ID ${id} não foi encontrado.`);
+    }
+    return this.removerSenha(usuario);
+  }
+
+ 
+  criar(createUsuarioDto: LoginDto): UsuarioSemSenha {
+    const emailExiste = this.usuarios.some(u => u.email === createUsuarioDto.email);
+    if (emailExiste) {
+      throw new BadRequestException('Este e-mail já está cadastrado.');
+    }
+
+    const novoUsuario: Usuario = {
+      id: (this.usuarios.length + 1).toString(),
+      nome: createUsuarioDto.nome || 'Usuário Sem Nome',
+      email: createUsuarioDto.email,
+      senhaHash: createUsuarioDto.senha,
+    };
+
+    this.usuarios.push(novoUsuario);
+    return this.removerSenha(novoUsuario);
+  }
+
+  
+  deletar(id: number): boolean {
+    const index = this.usuarios.findIndex((u) => Number(u.id) === id);
+    if (index === -1) {
+      return false;
+    }
+    this.usuarios.splice(index, 1);
+    return true;
+  }
+
+  
+  buscarPorEmail(email: string): Usuario | undefined {
+    return this.usuarios.find(u => u.email === email);
+  }
+
+  
   removerSenha(usuario: Usuario): UsuarioSemSenha {
-    // Remove a senhaHash e extrai o resto 
     const { senhaHash, ...usuarioSemSenha } = usuario;
     return usuarioSemSenha;
   }

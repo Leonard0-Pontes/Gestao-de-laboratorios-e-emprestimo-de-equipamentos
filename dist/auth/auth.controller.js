@@ -22,7 +22,7 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     async login(body) {
-        const usuario = await this.authService.validarUsuario(body.nome, body.email, body.senha);
+        const usuario = await this.authService.validarUsuario(body.nome ?? '', body.email, body.senha);
         return {
             mensagem: 'Login realizado com sucesso!',
             usuario: {
