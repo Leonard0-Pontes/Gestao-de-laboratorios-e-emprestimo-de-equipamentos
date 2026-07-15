@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { CreateEquipDto } from './dtos/create-equip.dto';
 import { UpdateEquipDto } from './dtos/update-equip.dto';
 import { LaboratorioService } from 'src/laboratorio/laboratorio.service';
@@ -62,7 +62,10 @@ export class EquipamentoService {
   listar(status?: string, limite?: number, pagina?: number) {
     let resultado = [...this.equipamentos];
     if (status) {
-      resultado = resultado.filter((s) => s.status === status);
+      resultado = resultado.filter((s) => s.status.toLowerCase() === status.toLowerCase());
+      if (resultado.length === 0) {
+        throw new NotFoundException("Status escolhido não existe, faça uso de (Disponível), (Reservado) ou (Ocupado).")
+      }
     }
     if (limite && limite > 0) {
       pagina = pagina ?? 1;
