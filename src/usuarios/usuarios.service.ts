@@ -6,7 +6,7 @@ export interface Usuario {
   nome: string;
   email: string;
   senhaHash: string;
-  role: 'admin' | 'comum'; 
+  role: 'admin' | 'comum';
 }
 
 export type UsuarioSemSenha = Omit<Usuario, 'senhaHash'>;
@@ -14,15 +14,12 @@ export type UsuarioSemSenha = Omit<Usuario, 'senhaHash'>;
 @Injectable()
 export class UsuariosService {
   private readonly usuarios: Usuario[] = [
-    // continua sendo o Admin inicial
     { id: '1', nome: 'Admin Bruno', email: 'bruno@example.com', senhaHash: '123456', role: 'admin' }
   ];
 
   criar(dados: LoginDto & { role?: 'admin' | 'comum' }, idOperador: string): UsuarioSemSenha {
-   
     const operador = this.usuarios.find(u => u.id === idOperador);
 
-    
     if (!operador || operador.role !== 'admin') {
       throw new ForbiddenException('Apenas administradores podem cadastrar novos usuários.');
     }
@@ -37,7 +34,7 @@ export class UsuariosService {
       nome: dados.nome || 'Usuário Sem Nome',
       email: dados.email,
       senhaHash: dados.senha,
-      role: dados.role || 'comum', 
+      role: dados.role || 'comum',
     };
 
     this.usuarios.push(novoUsuario);
@@ -56,7 +53,45 @@ export class UsuariosService {
     return this.removerSenha(usuario);
   }
 
-  // 4. DELETAR (Apenas um admin pode deletar, e o primeiro Admin ID '1' é protegido)
+  
+  atualizar(idParaAtualizar: string, dadosParaAtualizar: Partial<LoginDto>, idOperador: string): UsuarioSemSenha {
+    const operador = this.usuarios.find(u => u.id === idOperador);
+    if (!operador) {
+      throw new ForbiddenException('Operador inválido ou não autenticado.');
+    }
+
+    const usuario = this.usuarios.find(u => u.id === idParaAtualizar);
+    if (!usuario) {
+      throw new NotFoundException(`Usuário com ID ${idParaAtualizar} não encontrado.`);
+    }
+
+    
+    if (dadosParaAtualizar.role && operador.role !== 'admin') {
+      throw new ForbiddenException('Apenas administradores podem alterar funções (roles) no sistema.');
+    }
+
+   
+    if (operador.role !== 'admin' && idParaAtualizar !== idOperador) {
+      throw new ForbiddenException('Você não tem permissão para atualizar os dados de outro usuário.');
+    }
+
+    
+    if (dadosParaAtualizar.email && dadosParaAtualizar.email !== usuario.email) {
+      const emailExistente = this.usuarios.find(u => u.email === dadosParaAtualizar.email);
+      if (emailExistente) {
+        throw new BadRequestException('Este endereço de e-mail já está em uso por outro usuário.');
+      }
+      usuario.email = dadosParaAtualizar.email;
+    }
+
+   
+    if (dadosParaAtualizar.nome) usuario.nome = dadosParaAtualizar.nome;
+    if (dadosParaAtualizar.senha) usuario.senhaHash = dadosParaAtualizar.senha;
+    if (dadosParaAtualizar.role) usuario.role = dadosParaAtualizar.role;
+
+    return this.removerSenha(usuario);
+  }
+
   deletar(idParaDeletar: string, idOperador: string): boolean {
     const operador = this.usuarios.find(u => u.id === idOperador);
 
