@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEquipDto } from './dtos/create-equip.dto';
 import { UpdateEquipDto } from './dtos/update-equip.dto';
 import { LaboratorioService } from 'src/laboratorio/laboratorio.service';
