@@ -3,9 +3,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LaboratorioModule } from './laboratorio/laboratorio.module';
 import { EquipamentoModule } from './equipamento/equipamento.module';
+import { ReservaModule } from './reserva/reserva.module';
+import { EmprestimoModule } from './emprestimo/emprestimo.module';
 
 @Module({
-  imports: [LaboratorioModule, EquipamentoModule],
+  imports: [LaboratorioModule, EquipamentoModule, ReservaModule, EmprestimoModule],
   controllers: [AppController],
   providers: [AppService],
 })
