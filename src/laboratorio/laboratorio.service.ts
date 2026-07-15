@@ -77,7 +77,10 @@ export class LaboratorioService {
     adicionados por completude.
     */
     if (status) {
-      resultado = resultado.filter((s) => s.status === status);
+      resultado = resultado.filter((s) => s.status.toLowerCase() === status.toLowerCase());
+      if (resultado.length === 0) {
+        throw new NotFoundException("Status escolhido não existe, faça uso de (disponível), (reservado) ou (ocupado)")
+      }
     }
     if (limite && limite > 0) {
       pagina = pagina ?? 1;
