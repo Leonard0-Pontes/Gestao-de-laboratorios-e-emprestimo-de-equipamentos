@@ -15,5 +15,5 @@ export class UpdateEquipDto {
   @IsString()
   @IsOptional()
   // O mesmo que "num_id" para os laboratórios
-  idLab!: string;
+  idLab?: string;
 }

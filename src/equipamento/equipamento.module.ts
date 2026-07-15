@@ -5,7 +5,7 @@ import { LaboratorioService } from 'src/laboratorio/laboratorio.service';
 
 @Module({
   controllers: [EquipamentoController],
-  providers: [EquipamentoService, LaboratorioService], ],
+  providers: [EquipamentoService, LaboratorioService],
   exports: [EquipamentoService],
-
+})
 export class EquipamentoModule {}

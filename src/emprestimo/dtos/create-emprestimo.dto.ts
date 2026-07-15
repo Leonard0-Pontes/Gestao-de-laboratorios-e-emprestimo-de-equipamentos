@@ -1,12 +1,14 @@
-import { IsInt, IsDateString, Min, IsOptional } from 'class-validator';
+import { IsInt, IsDateString, Min, IsOptional, IsNotEmpty } from 'class-validator';
 
 export class CreateEmprestimoDto {
   @IsInt()
   @Min(1)
-  equipamentoId: number;
+  @IsNotEmpty()
+  equipamentoId!: number;
 
   @IsDateString()
-  dataPrevista: string; // data prevista para devolução
+  @IsNotEmpty()
+  dataPrevista!: string; // data prevista para devolução
 
   @IsDateString()
   @IsOptional()

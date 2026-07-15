@@ -2,7 +2,8 @@ import { IsIn, IsDateString, IsOptional } from 'class-validator';
 
 export class UpdateEmprestimoDto {
   @IsIn(['Aprovado', 'Finalizado'])
-  status: 'Aprovado' | 'Finalizado';
+  @IsOptional()
+  status?: 'Aprovado' | 'Finalizado';
 
   @IsDateString()
   @IsOptional()

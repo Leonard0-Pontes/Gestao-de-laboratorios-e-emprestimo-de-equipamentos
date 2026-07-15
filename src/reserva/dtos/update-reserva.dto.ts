@@ -1,6 +1,7 @@
-import { IsIn } from 'class-validator';
+import { IsIn, IsOptional } from 'class-validator';
 
 export class UpdateReservaDto { 
   @IsIn(['Aprovada', 'Cancelada', 'Concluída'])
-   status: 'Aprovada' | 'Cancelada' | 'Concluída';
+  @IsOptional()
+  status?: 'Aprovada' | 'Cancelada' | 'Concluída';
 }

@@ -1,14 +1,17 @@
-import {IsInt, IsDateString, Min } from 'class-validator';
+import {IsInt, IsDateString, Min, IsNotEmpty } from 'class-validator';
 
 export class CreateReservaDto {
   @IsInt()
   @Min(1)
-  equipamentoId: number;
+  @IsNotEmpty()
+  equipamentoId!: number;
 
   @IsDateString()
-  dataInicio: string;
+  @IsNotEmpty()
+  dataInicio!: string;
 
   @IsDateString()
-  dataFim: string;
+  @IsNotEmpty()
+  dataFim!: string;
 
 }
