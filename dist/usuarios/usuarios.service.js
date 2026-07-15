@@ -10,8 +10,25 @@ exports.UsuariosService = void 0;
 const common_1 = require("@nestjs/common");
 let UsuariosService = class UsuariosService {
     usuarios = [
-        { id: '1', nome: 'Bruno Costa', email: 'bruno@example.com', senhaHash: '123456' }
+        { id: '1', nome: 'Admin Bruno', email: 'bruno@example.com', senhaHash: '123456' }
     ];
+    criar(dados, idOperador) {
+        if (idOperador !== '1') {
+            throw new common_1.ForbiddenException('Apenas o administrador (ID 1) pode cadastrar novos usuários.');
+        }
+        const emailExistente = this.usuarios.find(u => u.email === dados.email);
+        if (emailExistente) {
+            throw new common_1.BadRequestException('Este endereço de e-mail já está cadastrado.');
+        }
+        const novoUsuario = {
+            id: (this.usuarios.length + 1).toString(),
+            nome: dados.nome || 'Usuário Sem Nome',
+            email: dados.email,
+            senhaHash: dados.senha,
+        };
+        this.usuarios.push(novoUsuario);
+        return this.removerSenha(novoUsuario);
+    }
     listarTodos() {
         return this.usuarios.map(u => this.removerSenha(u));
     }
@@ -22,22 +39,14 @@ let UsuariosService = class UsuariosService {
         }
         return this.removerSenha(usuario);
     }
-    criar(createUsuarioDto) {
-        const emailExiste = this.usuarios.some(u => u.email === createUsuarioDto.email);
-        if (emailExiste) {
-            throw new common_1.BadRequestException('Este e-mail já está cadastrado.');
+    deletar(idParaDeletar, idOperador) {
+        if (idOperador !== '1') {
+            throw new common_1.ForbiddenException('Apenas o administrador (ID 1) possui permissão para excluir contas.');
         }
-        const novoUsuario = {
-            id: (this.usuarios.length + 1).toString(),
-            nome: createUsuarioDto.nome || 'Usuário Sem Nome',
-            email: createUsuarioDto.email,
-            senhaHash: createUsuarioDto.senha,
-        };
-        this.usuarios.push(novoUsuario);
-        return this.removerSenha(novoUsuario);
-    }
-    deletar(id) {
-        const index = this.usuarios.findIndex((u) => Number(u.id) === id);
+        if (idParaDeletar === '1') {
+            throw new common_1.BadRequestException('A conta de Administrador (ID 1) não pode ser excluída do sistema.');
+        }
+        const index = this.usuarios.findIndex((u) => u.id === idParaDeletar);
         if (index === -1) {
             return false;
         }

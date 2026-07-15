@@ -7,11 +7,11 @@ export interface Usuario {
 }
 export type UsuarioSemSenha = Omit<Usuario, 'senhaHash'>;
 export declare class UsuariosService {
-    private usuarios;
+    private readonly usuarios;
+    criar(dados: LoginDto, idOperador: string): UsuarioSemSenha;
     listarTodos(): UsuarioSemSenha[];
     buscarPorId(id: string): UsuarioSemSenha;
-    criar(createUsuarioDto: LoginDto): UsuarioSemSenha;
-    deletar(id: number): boolean;
+    deletar(idParaDeletar: string, idOperador: string): boolean;
     buscarPorEmail(email: string): Usuario | undefined;
     removerSenha(usuario: Usuario): UsuarioSemSenha;
 }
