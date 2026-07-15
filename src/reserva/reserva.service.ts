@@ -15,7 +15,7 @@ type Reserva = {
 export class ReservaService {
   private reservas: Reserva[] = [];
 
-  constructor(private readonly equipamentoService: EquipamentoService) {}
+  constructor(private readonly equipamentoService: EquipamentoService) { }
 
   criar(usuarioId: number, dto: CreateReservaDto) {
     const equipamento = this.equipamentoService.buscarId(dto.equipamentoId);
@@ -102,4 +102,20 @@ export class ReservaService {
     reserva.status = 'Concluída';
     return reserva;
   }
+
+ remover(id: number) {
+  const reserva = this.reservas.find(r => r.id === id);
+  if (!reserva) {
+    throw new NotFoundException('Reserva não encontrada.');
+  }
+
+  if (reserva.status === 'Aprovada') {
+    this.equipamentoService.atualizarParcial(reserva.equipamentoId, {
+      status: 'Disponível',
+    });
+  }
+
+  this.reservas = this.reservas.filter(r => r.id !== id);
+  return { message: 'Reserva removida com sucesso.' };
+}
 }

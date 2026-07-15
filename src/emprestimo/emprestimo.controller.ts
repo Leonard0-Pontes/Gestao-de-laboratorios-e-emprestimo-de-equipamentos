@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Patch, Param, ParseIntPipe, Req } from '@nestjs/common';
+import { Controller, Post, Body, Get, Patch, Param, ParseIntPipe, Req, Delete } from '@nestjs/common';
 import { EmprestimoService } from './emprestimo.service';
 import { CreateEmprestimoDto } from './dtos/create-emprestimo.dto';
 
@@ -30,5 +30,10 @@ export class EmprestimoController {
   @Patch(':id/devolver')
   devolver(@Param('id', ParseIntPipe) id: number) {
     return this.emprestimoService.devolver(id);
+  }
+
+  @Delete(':id')
+  remover(@Param('id', ParseIntPipe) id: number) {
+    return this.emprestimoService.remover(id);
   }
 }

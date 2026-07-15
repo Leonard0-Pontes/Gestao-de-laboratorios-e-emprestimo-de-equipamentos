@@ -1,10 +1,10 @@
-import { Controller, Post, Body, Get, Patch, Param, ParseIntPipe, Req } from '@nestjs/common';
+import { Controller, Post, Body, Get, Patch, Param, ParseIntPipe, Req, Delete } from '@nestjs/common';
 import { ReservaService } from './reserva.service';
 import { CreateReservaDto } from './dtos/create-reserva.dto';
 
 @Controller('reservas')
 export class ReservaController {
-  constructor(private readonly reservaService: ReservaService) {}
+  constructor(private readonly reservaService: ReservaService) { }
 
   @Post()
   criar(@Req() req, @Body() dto: CreateReservaDto) {
@@ -30,5 +30,10 @@ export class ReservaController {
   @Patch(':id/concluir')
   concluir(@Param('id', ParseIntPipe) id: number) {
     return this.reservaService.concluir(id);
+  }
+
+  @Delete(':id')
+  remover(@Param('id', ParseIntPipe) id: number) {
+    return this.reservaService.remover(id);
   }
 }

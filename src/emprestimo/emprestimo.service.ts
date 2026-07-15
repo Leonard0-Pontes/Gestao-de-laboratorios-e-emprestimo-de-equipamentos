@@ -16,7 +16,7 @@ type Emprestimo = {
 export class EmprestimoService {
   private emprestimos: Emprestimo[] = [];
 
-  constructor(private readonly equipamentoService: EquipamentoService) {}
+  constructor(private readonly equipamentoService: EquipamentoService) { }
 
   criar(usuarioId: number, dto: CreateEmprestimoDto) {
     // 1. Verifica se equipamento existe e está disponível
@@ -92,5 +92,21 @@ export class EmprestimoService {
     emprestimo.status = 'Finalizado';
     emprestimo.dataDevolucao = new Date().toISOString(); // registra data de devolução
     return emprestimo;
+  }
+
+  remover(id: number) {
+    const emprestimo = this.emprestimos.find(e => e.id === id);
+    if (!emprestimo) {
+      throw new NotFoundException('Empréstimo não encontrado.');
+    }
+
+    if (emprestimo.status === 'Aprovado') {
+      this.equipamentoService.atualizarParcial(emprestimo.equipamentoId, {
+        status: 'Disponível',
+      });
+    }
+
+    this.emprestimos = this.emprestimos.filter(e => e.id !== id);
+    return { message: 'Empréstimo removido com sucesso.' };
   }
 }
