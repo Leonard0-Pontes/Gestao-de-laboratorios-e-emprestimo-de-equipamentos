@@ -47,7 +47,7 @@ Este projeto propõe uma solução informatizada para automatizar esse processo,
 
 ---
 
-# 🏗 Arquitetura
+# Arquitetura
 
 O sistema segue uma arquitetura cliente-servidor.
 
@@ -80,7 +80,7 @@ Essa separação facilita:
 
 ---
 
-# 🛠 Tecnologias Utilizadas
+# Tecnologias Utilizadas
 
 ## Backend
 
@@ -175,6 +175,67 @@ Essa separação facilita:
 
 
 # Endpoints
+
+## Laboratórios
+
+```http
+POST /laboratorio
+GET /laboratorio
+GET /laboratorio/:id
+PATCH /laboratorio/:id
+DELETE /laboratorio/:id
+```
+
+## Equipamentos
+
+```http
+POST /equipamento
+POST /equipamento/com-arquivo
+GET /equipamento
+GET /equipamento/:id
+PATCH /equipamento/:id
+DELETE /equipamento/:id
+```
+
+## Reservas
+
+```http
+POST /reservas
+GET /reservas
+GET /reservas/:id
+PATCH /reservas/:id/cancelar
+PATCH /reservas/:id/concluir
+DELETE /reservas/:id
+```
+
+## Empréstimos
+
+```http
+POST /emprestimos
+GET /emprestimos
+GET /emprestimos/:id
+PATCH /emprestimos/:id/aprovar
+PATCH /emprestimos/:id/devolver
+DELETE /emprestimos/:id
+```
+
+## Autenticação
+
+```http
+POST /auth/login
+```
+
+## Usuários
+
+```http
+POST /usuarios
+GET /usuarios
+GET /usuarios/:id
+PATCH /usuarios/:id
+DELETE /usuarios/:id
+```
+
+---
 
 # Estrutura do Projeto
 
@@ -315,7 +376,7 @@ docker compose down
 
 ---
 
-# 🔐 Variáveis de Ambiente
+# Variáveis de Ambiente
 
 Exemplo de configuração:
 
