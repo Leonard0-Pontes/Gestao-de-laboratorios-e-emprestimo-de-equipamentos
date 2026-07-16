@@ -9,7 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 
 @Module({
-  imports: [LaboratorioModule, EquipamentoModule, ReservaModule, EmprestimoModule,AuthModule,UsuariosModule],
+  imports: [LaboratorioModule, EquipamentoModule, ReservaModule, EmprestimoModule, AuthModule, UsuariosModule],
   controllers: [AppController],
   providers: [AppService],
 })
