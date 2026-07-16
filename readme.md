@@ -1,14 +1,29 @@
 # Gestão de Laboratórios e Empréstimo de Equipamentos
 
-## 📋 Sobre o Projeto
+## Sobre o Projeto
 
 O **Gestão de Laboratórios e Empréstimo de Equipamentos** é um sistema web desenvolvido para facilitar o gerenciamento de laboratórios acadêmicos e o controle do empréstimo de equipamentos.
 
 O sistema busca centralizar as informações referentes aos laboratórios, equipamentos e usuários, permitindo que administradores tenham maior controle sobre a disponibilidade dos recursos e que usuários possam solicitar empréstimos de forma organizada e segura.
 
+O sistema possui dois perfis de usuário:
+
+### Administrador
+- Gerenciar usuários
+- Cadastrar laboratórios
+- Cadastrar equipamentos
+- Registrar devoluções
+
+### Aluno
+- Cadastro e Login
+- Consultar equipamentos disponíveis
+- Solicitar reservas
+- Solicitar empréstimos
+- Consultar histórico
+
 ---
 
-# 🎯 Problema
+# Problema
 
 Instituições de ensino frequentemente realizam o controle de laboratórios e empréstimos de equipamentos de forma manual ou utilizando planilhas, o que pode ocasionar:
 
@@ -22,7 +37,7 @@ Este projeto propõe uma solução informatizada para automatizar esse processo,
 
 ---
 
-# 👥 Integrantes
+# Integrantes
 
 - Angelo Gabriel
 - Leonardo Pontes
@@ -89,11 +104,76 @@ Essa separação facilita:
 
 # Containerização
 - Docker
-- Docker Compose 
+- Docker Compose
+
+### Resumo teccnologias
+| Tecnologia | Utilização |
+|------------|------------|
+| NestJS | Backend |
+| TypeScript | Linguagem |
+| Git, GitHub, npm | Ferramentas |
+| Docker | Containers |
+| HTML, CSS e Javascript| Frontend |
 
 ---
 
-# 📂 Estrutura do Projeto
+# Modelo de Dados
+
+## Usuário
+
+- id
+- nome
+- email
+- senhaHash
+
+## Laboratório
+
+- id
+- nome
+- localização
+- descrição
+
+## Equipamento
+
+- id
+- nome
+- descrição
+- status
+- imagem
+- laboratorioId
+
+## Reserva
+
+- id
+- usuarioId
+- equipamentoId
+- dataInicio
+- dataFim
+- status
+
+## Empréstimo
+
+- id
+- usuarioId
+- equipamentoId
+- dataEmprestimo
+- dataPrevista
+- dataDevolucao
+- status
+
+---
+
+# Regras de Negócio
+
+- Equipamentos indisponíveis não podem ser reservados.
+- Apenas administradores podem criar novos usuarios.
+- Não permitir duas reservas para o mesmo equipamento no mesmo período.
+- Não permitir devoluções inexistentes.
+- Reservas canceladas não podem ser aprovadas.
+
+---
+
+# Estrutura do Projeto
 
 ```
 Gestao-de-laboratorios-e-emprestimo-de-equipamentos/
@@ -177,7 +257,7 @@ Gestao-de-laboratorios-e-emprestimo-de-equipamentos/
 
 ---
 
-# ⚙️ Instalação
+# Instalação
 
 ## 1. Clone o repositório
 
@@ -244,19 +324,24 @@ PORT=3000
 
 ---
 
-# 🚀 Funcionalidades
+# Funcionalidades
 
-- Cadastro de usuários
-- Cadastro de laboratórios
-- Cadastro de equipamentos
 - Controle de empréstimos
 - Consulta de disponibilidade
-- ~~Histórico de empréstimos~~
 - Gerenciamento de usuários
+- Controle de acesso por papéis
+- CRUD de Usuários
+- CRUD de Laboratórios
+- CRUD de Equipamentos
+- Reservas
+- Upload de imagens
+- Docker
+- Deploy
+
 
 ---
 
-# 📌 Decisões Técnicas
+# Decisões Técnicas
 
 Durante o desenvolvimento foram adotadas as seguintes decisões:
 
@@ -278,6 +363,6 @@ O desenvolvimento foi realizado utilizando branches para separar funcionalidades
 
 ---
 
-# 📄 Licença
+# Licença
 
 Este projeto foi desenvolvido para fins acadêmicos.
