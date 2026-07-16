@@ -170,6 +170,7 @@ Essa separação facilita:
 - Não permitir duas reservas para o mesmo equipamento no mesmo período.
 - Não permitir devoluções inexistentes.
 - Reservas canceladas não podem ser aprovadas.
+- Um equipamento não pode ser criado sem um laboratório associado.
 
 ---
 
