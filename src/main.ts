@@ -5,7 +5,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const defaultCorsOrigins = 'http://localhost:5500,http://127.0.0.1:5500'
+  const defaultCorsOrigins = 'http://localhost:5500,http://127.0.0.1:5500,https://v0idnight.github.io/lab_front/'
   const corsOrigins = (process.env.CORS_ORIGIN ?? defaultCorsOrigins)
   .split(',')
   .map((origin) => origin.trim())
